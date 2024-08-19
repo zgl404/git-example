@@ -12,15 +12,22 @@ class BaiduMapAPITest(unittest.TestCase):
             "output": "json",
             "ak": self.AK
         }
+
+
+     def test_reverse_geocoding(self):
+        location = "39.983424,116.306477"
+        params = {
+            "location": location,
+            "output": "json",
+            "ak": self.AK
+        }
         response = requests.get(self.BASE_URL, params=params)
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data["status"], 0)
         self.assertIn("result", data)
-        self.assertIn("location", data["result"])
-        self.assertIn("lng", data["result"]["location"])
-        self.assertIn("lat", data["result"]["location"])
-
+        self.assertIn("addressComponent", data["result"])
+        self.assertIn("city", data["result"]["addressComponent"])
     def test_reverse_geocoding(self):
         location = "39.983424,116.306477"
         params = {
